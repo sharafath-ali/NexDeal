@@ -2,7 +2,7 @@
   "name": "nexdeal",
   "version": "1.0.0",
   "description": "nexdeal backend",
-  "main": "index.js",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/sharafath-ali/NexDeal#readme",
   "dependencies": {
+    "dotenv": "^17.4.1",
     "express": "^5.2.1",
     "nodemon": "^3.1.14"
   }
