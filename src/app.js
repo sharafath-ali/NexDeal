@@ -4,6 +4,8 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import authRoutes from '#routes/auth.routes.js';
+import usersRoutes from '#routes/users.routes.js';
 
 export const app = express();
 
@@ -13,7 +15,26 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 
-app.use(morgan('combined', { stream: { write: (message) => logger.info(message) } }));
+app.use(
+  morgan('combined', { stream: { write: message => logger.info(message) } })
+);
+
+app.use('/api/auth', authRoutes);
+app.use('/api/users', usersRoutes);
+
+app.get('/health', (req, res) => {
+  logger.info('Health check');
+  res.json({
+    message: 'OK',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+  });
+});
+
+app.get('/api', (req, res) => {
+  logger.info('API check');
+  res.json({ message: 'API is running!', timestamp: new Date().toISOString() });
+});
 
 app.get('/', (req, res) => {
   logger.info('NexDeal API is running!');
