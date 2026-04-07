@@ -25,7 +25,9 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "dev:docker": "bash scripts/dev.sh",
+    "prod:docker": "bash scripts/prod.sh"
   },
   "repository": {
     "type": "git",
