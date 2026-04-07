@@ -26,9 +26,9 @@ RUN npm ci
 COPY . .
 
 # ============================================================
-# Stage 3: runner — lean production image
+# Stage 3: production — lean production image
 # ============================================================
-FROM node:20-alpine AS runner
+FROM node:20-alpine AS production
 
 # Use non-root user for security
 RUN addgroup --system --gid 1001 nodejs \
