@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "type": "module",
   "imports": {
+    "#src/*": "./src/*",
     "#config/*": "./src/config/*",
     "#controllers/*": "./src/controllers/*",
     "#middleware/*": "./src/middleware/*",
@@ -15,7 +16,7 @@
     "#validations/*": "./src/validations/*"
   },
   "scripts": {
-    "test": "jest",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "lint": "eslint .",

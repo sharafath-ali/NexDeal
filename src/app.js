@@ -38,6 +38,10 @@ app.get('/api', (req, res) => {
   res.json({ message: 'API is running!', timestamp: new Date().toISOString() });
 });
 
+app.use((req, res) => {
+  res.status(404).json({ message: 'Not Found' });
+});
+
 app.get('/', (req, res) => {
   logger.info('NexDeal API is running!');
   res.send('NexDeal API is running!');
