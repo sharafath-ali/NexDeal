@@ -13,7 +13,7 @@ services:
     image: neondatabase/neon_local:latest
     container_name: nexdeal-neon-local
     ports:
-      - "5432:5432"          # Expose locally for psql / drizzle-kit studio
+      - "5432:5432" # Expose locally for psql / drizzle-kit studio
     env_file:
       - .env.development
     # Persist branch metadata so the same branch survives hot-reloads
@@ -36,9 +36,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: builder      # Use the builder stage so nodemon / devDependencies are available
+      target: builder # Use the builder stage so nodemon / devDependencies are available
     container_name: nexdeal-app-dev
-    command: ["node", "--watch", "src/index.js"]   # native Node watch (no nodemon needed)
+    command: ["node", "--watch", "src/index.js"] # native Node watch (no nodemon needed)
     ports:
       - "${PORT:-3000}:3000"
     env_file:
@@ -47,8 +47,8 @@ services:
       # Override DATABASE_URL to use the service name as hostname
       DATABASE_URL: postgres://neon:npg@neon-local:5432/neondb
     volumes:
-      - .:/app                        # Live source mount for hot-reload
-      - /app/node_modules             # Prevent host node_modules from overriding
+      - .:/app # Live source mount for hot-reload
+      - /app/node_modules # Prevent host node_modules from overriding
     depends_on:
       neon-local:
         condition: service_healthy

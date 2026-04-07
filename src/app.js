@@ -35,7 +35,10 @@ app.get('/health', (req, res) => {
 
 app.get('/api', (req, res) => {
   logger.info('API check');
-  res.json({ message: 'Acquisitions API is running!', timestamp: new Date().toISOString() });
+  res.json({
+    message: 'Acquisitions API is running!',
+    timestamp: new Date().toISOString(),
+  });
 });
 
 app.use((req, res) => {

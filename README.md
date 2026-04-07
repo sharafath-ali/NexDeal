@@ -12,7 +12,7 @@ branches) and deploying to production with **Neon Cloud**.
 3. [Environment Variables](#environment-variables)
 4. [Development — Local with Neon Local](#development--local-with-neon-local)
 5. [Production — Neon Cloud](#production--neon-cloud)
-6. [How DATABASE\_URL switches between environments](#how-database_url-switches-between-environments)
+6. [How DATABASE_URL switches between environments](#how-database_url-switches-between-environments)
 7. [Useful Commands](#useful-commands)
 8. [File Reference](#file-reference)
 
@@ -48,13 +48,13 @@ branches) and deploying to production with **Neon Cloud**.
 
 ## Prerequisites
 
-| Tool | Version | Notes |
-|---|---|---|
-| Docker Desktop | ≥ 24 | [Download](https://www.docker.com/products/docker-desktop/) |
-| Node.js | ≥ 20 | Only needed for bare-metal dev |
-| Neon account | — | [Sign up free](https://console.neon.tech/signup) |
-| Neon API Key | — | **Manage → API Keys** in the Neon console |
-| Arcjet account | — | [arcjet.com](https://arcjet.com) (optional — skip key for local testing) |
+| Tool           | Version | Notes                                                                    |
+| -------------- | ------- | ------------------------------------------------------------------------ |
+| Docker Desktop | ≥ 24    | [Download](https://www.docker.com/products/docker-desktop/)              |
+| Node.js        | ≥ 20    | Only needed for bare-metal dev                                           |
+| Neon account   | —       | [Sign up free](https://console.neon.tech/signup)                         |
+| Neon API Key   | —       | **Manage → API Keys** in the Neon console                                |
+| Arcjet account | —       | [arcjet.com](https://arcjet.com) (optional — skip key for local testing) |
 
 ---
 
@@ -67,17 +67,17 @@ cp .env.example .env.development   # for local dev
 cp .env.example .env.production    # for production
 ```
 
-| Variable | Used in | Description |
-|---|---|---|
-| `DATABASE_URL` | Both | Postgres connection string |
-| `NEON_API_KEY` | Dev only | Neon API key (used by Neon Local proxy) |
-| `NEON_PROJECT_ID` | Dev only | Your Neon project ID |
+| Variable           | Used in  | Description                                          |
+| ------------------ | -------- | ---------------------------------------------------- |
+| `DATABASE_URL`     | Both     | Postgres connection string                           |
+| `NEON_API_KEY`     | Dev only | Neon API key (used by Neon Local proxy)              |
+| `NEON_PROJECT_ID`  | Dev only | Your Neon project ID                                 |
 | `PARENT_BRANCH_ID` | Dev only | Branch to fork ephemeral branches from (e.g. `main`) |
-| `NEON_LOCAL_HOST` | Dev only | Override host for Neon Local (default: `neon-local`) |
-| `ARCJET_KEY` | Both | Arcjet security key |
-| `PORT` | Both | HTTP port the app listens on (default: `3000`) |
-| `NODE_ENV` | Both | `development` or `production` |
-| `LOG_LEVEL` | Both | `debug` / `info` / `warn` / `error` |
+| `NEON_LOCAL_HOST`  | Dev only | Override host for Neon Local (default: `neon-local`) |
+| `ARCJET_KEY`       | Both     | Arcjet security key                                  |
+| `PORT`             | Both     | HTTP port the app listens on (default: `3000`)       |
+| `NODE_ENV`         | Both     | `development` or `production`                        |
+| `LOG_LEVEL`        | Both     | `debug` / `info` / `warn` / `error`                  |
 
 ---
 
@@ -94,8 +94,9 @@ ARCJET_KEY=your_arcjet_key
 ```
 
 > **Finding your IDs**  
-> In the Neon Console, open your project.  
-> - **Project ID** — visible on the Project Settings page  
+> In the Neon Console, open your project.
+>
+> - **Project ID** — visible on the Project Settings page
 > - **Branch ID** — go to **Branches**, click on `main`, copy the ID from the URL
 
 ### 2. Start the stack
@@ -105,6 +106,7 @@ docker compose -f docker-compose.dev.yml --env-file .env.development up --build
 ```
 
 What happens:
+
 1. The **`neon-local`** container starts and calls the Neon API to create a
    fresh **ephemeral child branch** forked from your `PARENT_BRANCH_ID`.
 2. The **`app`** container waits for `neon-local` to become healthy, then
@@ -183,16 +185,16 @@ docker push your-registry/nexdeal:latest
 
 ## How `DATABASE_URL` switches between environments
 
-| Environment | `DATABASE_URL` | `NODE_ENV` | Neon serverless driver config |
-|---|---|---|---|
-| **Development** | `postgres://neon:npg@neon-local:5432/neondb` | `development` | `fetchEndpoint` → Neon Local proxy |
-| **Production** | `postgres://...neon.tech/...?sslmode=require` | `production` | Default (direct, secure WebSocket) |
+| Environment     | `DATABASE_URL`                                | `NODE_ENV`    | Neon serverless driver config      |
+| --------------- | --------------------------------------------- | ------------- | ---------------------------------- |
+| **Development** | `postgres://neon:npg@neon-local:5432/neondb`  | `development` | `fetchEndpoint` → Neon Local proxy |
+| **Production**  | `postgres://...neon.tech/...?sslmode=require` | `production`  | Default (direct, secure WebSocket) |
 
 The switch happens in `src/config/database.js`:
 
 ```js
-if (process.env.NODE_ENV === 'development') {
-  const neonLocalHost = process.env.NEON_LOCAL_HOST ?? 'neon-local';
+if (process.env.NODE_ENV === "development") {
+  const neonLocalHost = process.env.NEON_LOCAL_HOST ?? "neon-local";
   neonConfig.fetchEndpoint = `http://${neonLocalHost}:5432/sql`;
   neonConfig.useSecureWebSocket = false;
   neonConfig.poolQueryViaFetch = true;
