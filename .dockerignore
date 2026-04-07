@@ -1,0 +1,23 @@
+# ── Node ──────────────────────────────────────────────────
+node_modules
+npm-debug.log*
+
+# ── Environment / secrets ─────────────────────────────────
+.env
+.env.*
+!.env.example          # keep example so it serves as documentation
+
+# ── Git ───────────────────────────────────────────────────
+.git
+.gitignore
+.github
+
+# ── Neon Local metadata ───────────────────────────────────
+.neon_local/
+
+# ── Logs ──────────────────────────────────────────────────
+logs/
+
+# ── Dev / OS artefacts ────────────────────────────────────
+.DS_Store
+*.md
