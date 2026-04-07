@@ -13,12 +13,8 @@ services:
     container_name: nexdeal-neon-local
     ports:
       - "5432:5432"          # Expose locally for psql / drizzle-kit studio
-    environment:
-      NEON_API_KEY: ${NEON_API_KEY}
-      NEON_PROJECT_ID: ${NEON_PROJECT_ID}
-      # PARENT_BRANCH_ID creates an ephemeral child branch on startup
-      # and deletes it automatically on container stop.
-      PARENT_BRANCH_ID: ${PARENT_BRANCH_ID}
+    env_file:
+      - .env.development
     # Persist branch metadata so the same branch survives hot-reloads
     # within a single session (avoids creating a new branch per app restart).
     volumes:
