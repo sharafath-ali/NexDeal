@@ -1,46 +1,44 @@
-# ============================================================
-# docker-compose.prod.yml
-# Production — App only, connecting to Neon Cloud directly
-# ============================================================
-# Usage (with secrets from .env.production or CI secrets):
-#   docker compose -f docker-compose.prod.yml --env-file .env.production up -d
-# ============================================================
+version: '3.8'
 
 services:
+  # Node.js application for production
   app:
-    image: nexdeal:latest   # Build and push this image in your CI pipeline
     build:
       context: .
       dockerfile: Dockerfile
-      target: runner        # Final lean production stage
+      target: production
     container_name: nexdeal-app-prod
     ports:
-      - "${PORT:-3000}:3000"
+      - '${PORT:-3000}:3000'
     env_file:
-      - .env.production     # Provides DATABASE_URL pointing to neon.tech
-    environment:
-      NODE_ENV: production
-      PORT: "3000"
-    # No Neon Local service — traffic goes straight to Neon Cloud over TLS
-    restart: always
+      - .env.production
+    volumes:
+      # Mount logs directory for production logging
+      - ./logs:/app/logs
+    restart: unless-stopped
     deploy:
-      replicas: 1
       resources:
         limits:
-          cpus: "0.50"
           memory: 512M
+          cpus: '0.5'
         reservations:
-          cpus: "0.25"
           memory: 256M
+          cpus: '0.25'
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/health || exit 1"]
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "require('http').get('http://localhost:3000/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) }).on('error', () => { process.exit(1) })",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 15s
+      start_period: 40s
     networks:
-      - nexdeal-prod-net
+      - nexdeal-prod
 
 networks:
-  nexdeal-prod-net:
+  nexdeal-prod:
     driver: bridge
