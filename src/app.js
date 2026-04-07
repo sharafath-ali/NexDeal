@@ -27,7 +27,7 @@ app.use('/api/users', usersRoutes);
 app.get('/health', (req, res) => {
   logger.info('Health check');
   res.json({
-    message: 'OK',
+    status: 'OK',
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
   });
@@ -35,14 +35,16 @@ app.get('/health', (req, res) => {
 
 app.get('/api', (req, res) => {
   logger.info('API check');
-  res.json({ message: 'API is running!', timestamp: new Date().toISOString() });
+  res.json({ message: 'Acquisitions API is running!', timestamp: new Date().toISOString() });
 });
 
 app.use((req, res) => {
-  res.status(404).json({ message: 'Not Found' });
+  res.status(404).json({ error: 'Route not found' });
 });
 
 app.get('/', (req, res) => {
   logger.info('NexDeal API is running!');
   res.send('NexDeal API is running!');
 });
+
+export default app;

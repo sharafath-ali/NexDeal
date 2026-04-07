@@ -12,3 +12,6 @@ logs/*
 
 # Neon Local branch metadata (created by docker-compose.dev.yml volume mount)
 .neon_local/
+
+# Jest coverage output
+coverage/
