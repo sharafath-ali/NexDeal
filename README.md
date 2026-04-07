@@ -193,8 +193,8 @@ docker push your-registry/nexdeal:latest
 The switch happens in `src/config/database.js`:
 
 ```js
-if (process.env.NODE_ENV === "development") {
-  const neonLocalHost = process.env.NEON_LOCAL_HOST ?? "neon-local";
+if (process.env.NODE_ENV === 'development') {
+  const neonLocalHost = process.env.NEON_LOCAL_HOST ?? 'neon-local';
   neonConfig.fetchEndpoint = `http://${neonLocalHost}:5432/sql`;
   neonConfig.useSecureWebSocket = false;
   neonConfig.poolQueryViaFetch = true;

@@ -13,7 +13,7 @@ services:
     image: neondatabase/neon_local:latest
     container_name: nexdeal-neon-local
     ports:
-      - "5432:5432" # Expose locally for psql / drizzle-kit studio
+      - '5432:5432' # Expose locally for psql / drizzle-kit studio
     env_file:
       - .env.development
     # Persist branch metadata so the same branch survives hot-reloads
@@ -22,7 +22,7 @@ services:
       - ./.neon_local/:/tmp/.neon_local
       - ./.git/HEAD:/tmp/.git/HEAD:ro,consistent
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -h localhost -p 5432 -U neon || exit 1"]
+      test: ['CMD-SHELL', 'pg_isready -h localhost -p 5432 -U neon || exit 1']
       interval: 10s
       timeout: 5s
       retries: 10
@@ -38,9 +38,9 @@ services:
       dockerfile: Dockerfile
       target: builder # Use the builder stage so nodemon / devDependencies are available
     container_name: nexdeal-app-dev
-    command: ["node", "--watch", "src/index.js"] # native Node watch (no nodemon needed)
+    command: ['node', '--watch', 'src/index.js'] # native Node watch (no nodemon needed)
     ports:
-      - "${PORT:-3000}:3000"
+      - '${PORT:-3000}:3000'
     env_file:
       - .env.development
     environment:
